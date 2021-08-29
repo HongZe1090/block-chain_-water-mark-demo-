@@ -35,8 +35,8 @@ public class Test {
            String contracthash="0x21b7e02733b966c2377a92d280db210b4699c667";
            Swaphash swaphash=Swaphash.load(contracthash,client,cryptoKeyPair);
 
-           String wmhash=ipfsfile.upload("Clientsendimage/1.jpg");
-           String imhash=ipfsfile.upload("Clientsendimage/2.jpg");
+           String wmhash=ipfsfile.upload("img/Clientsendimage/1.jpg");
+           String imhash=ipfsfile.upload("img/Clientsendimage/2.jpg");
 
            System.out.println(wmhash);
            System.out.println(imhash);
@@ -48,15 +48,15 @@ public class Test {
            wm=swaphash.serverget().getValue1();
            im=swaphash.serverget().getValue2();
 
-           ipfsfile.download("Servertempimage/wm.jpg",wm);
-           ipfsfile.download("Servertempimage/im.jpg",im);
+           ipfsfile.download("img/Servertempimage/wm.jpg",wm);
+           ipfsfile.download("img/Servertempimage/im.jpg",im);
            /*
         水印算法。
             */
-            String backhash=ipfsfile.upload("Servertempimage/wm.jpg");
+            String backhash=ipfsfile.upload("img/Servertempimage/wm.jpg");
            swaphash.Serversend(backhash);
            String re=swaphash.clientget();
            System.out.println(re);
-           ipfsfile.download("Clientgetimage/wm.jpg",re);
+           ipfsfile.download("img/Clientgetimage/wm.jpg",re);
     }
 }

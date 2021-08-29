@@ -8,16 +8,7 @@
 		<property name="cryptoMaterial">
 			<map>
 			<entry key="certPath" value="conf" />
-			<!-- SSL certificate configuration -->
-			<!-- entry key="caCert" value="conf/ca.crt" /-->
-			<!-- entry key="sslCert" value="conf/sdk.crt" /-->
-			<!-- entry key="sslKey" value="conf/sdk.key" /-->
-			<!-- GM SSL certificate configuration -->
-			<!-- entry key="caCert" value="conf/gm/gmca.crt" /-->
-			<!-- entry key="sslCert" value="conf/gm/gmsdk.crt" /-->
-			<!-- entry key="sslKey" value="conf/gm/gmsdk.key" /-->
-			<!--entry key="enSslCert" value="conf/gm/gmensdk.crt" /-->
-			<!--entry key="enSslKey" value="conf/gm/gmensdk.key" /-->
+
 			</map>
 		</property>
 		<property name="network">
