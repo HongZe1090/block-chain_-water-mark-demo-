@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+	  <span class="info">请输入载体图片</span>
     <div class="uploadFile">
         <!-- ul、li标签用于展示从本地添加的预览图片 -->
         <ul v-show="uploadImg.length!=0">
@@ -13,7 +14,25 @@
                id="file"
                accept="image/*"
                @change="getPicture($event)">
-        <button @click="callFile"
+        <button @click="callFile" class="sub"
+                v-show="showInputImg">+</button>
+      </div>
+	  <span class="info">请输入水印图片</span>
+	  <div class="uploadFile">
+        <!-- ul、li标签用于展示从本地添加的预览图片 -->
+		
+        <ul v-show="uploadImg.length!=0">
+          <li v-for="(item,index) in uploadImg"
+              :key="index"
+              class="addPic">
+            <img :src="item">
+          </li>
+        </ul>
+        <input type="file"
+               id="file"
+               accept="image/*"
+               @change="getPicture($event)">
+        <button class="sub2" @click="callFile2"
                 v-show="showInputImg">+</button>
       </div>
 
@@ -61,14 +80,18 @@ export default {
 </script>
 
 <style scoped>
+.info{
+	margin-left: 575px;
+}
 input {
 		  /* 隐藏默认的"打开文件"样式 */
 		  display: none;
 		}
 		.uploadFile {
+		  margin: 0 auto;
 		  display: flex;
-		  height: 120px;
-		  line-height: 120px;
+		  height: 320px;
+		  line-height: 320px;
 		  padding: 10px 0;
 		  border-bottom: 1px solid rgb(235, 235, 235);
 		  overflow: hidden;
@@ -80,12 +103,22 @@ input {
 		  margin-right: 10px;
 		}
 		.uploadFile .addPic img {
+			margin: 0 auto;
 		  height: 100%;
-		  width: 100%;
 		}
-		.uploadFile button {
-		  height: 100px;
-		  width: 100px;
+		.uploadFile .sub {
+			margin: 0 auto;
+		  height: 300px;
+		  width: 300px;
+		  font-size: 50px;
+		  border: 1px dashed rgb(182, 182, 182);
+		  color: rgb(182, 182, 182);
+		  background-color: rgb(243, 243, 243);
+		}
+		.uploadFile .sub2 {
+			margin: 0 auto;
+		  height: 200px;
+		  width: 200px;
 		  font-size: 50px;
 		  border: 1px dashed rgb(182, 182, 182);
 		  color: rgb(182, 182, 182);

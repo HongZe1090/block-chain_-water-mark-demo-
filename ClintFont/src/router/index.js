@@ -58,12 +58,25 @@ export const constantRoutes = [
   {
     path: '/form',
     component: Layout,
+    meta: { title: '拷贝检测', icon: 'form' },
+    },
+
+  {
+    path: '/form',
+    component: Layout,
+    meta: { title: '添加水印', icon: 'form' },
     children: [
       {
         path: 'index',
         name: 'Form',
         component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        meta: { title: '提交图片', icon: 'form' }
+      },
+      {
+        path: 'index',
+        name: 'Form',
+        component: () => import('@/views/form/index'),
+        meta: { title: '获取图片', icon: 'form' }
       }
     ]
   },
