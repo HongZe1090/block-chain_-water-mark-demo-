@@ -1,85 +1,95 @@
 <template>
   <div class="app-container">
-    <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="Activity name">
-        <el-input v-model="form.name" />
-      </el-form-item>
-      <el-form-item label="Activity zone">
-        <el-select v-model="form.region" placeholder="please select your zone">
-          <el-option label="Zone one" value="shanghai" />
-          <el-option label="Zone two" value="beijing" />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="Activity time">
-        <el-col :span="11">
-          <el-date-picker v-model="form.date1" type="date" placeholder="Pick a date" style="width: 100%;" />
-        </el-col>
-        <el-col :span="2" class="line">-</el-col>
-        <el-col :span="11">
-          <el-time-picker v-model="form.date2" type="fixed-time" placeholder="Pick a time" style="width: 100%;" />
-        </el-col>
-      </el-form-item>
-      <el-form-item label="Instant delivery">
-        <el-switch v-model="form.delivery" />
-      </el-form-item>
-      <el-form-item label="Activity type">
-        <el-checkbox-group v-model="form.type">
-          <el-checkbox label="Online activities" name="type" />
-          <el-checkbox label="Promotion activities" name="type" />
-          <el-checkbox label="Offline activities" name="type" />
-          <el-checkbox label="Simple brand exposure" name="type" />
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="Resources">
-        <el-radio-group v-model="form.resource">
-          <el-radio label="Sponsor" />
-          <el-radio label="Venue" />
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="Activity form">
-        <el-input v-model="form.desc" type="textarea" />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">Create</el-button>
-        <el-button @click="onCancel">Cancel</el-button>
-      </el-form-item>
-    </el-form>
+    <div class="uploadFile">
+        <!-- ul、li标签用于展示从本地添加的预览图片 -->
+        <ul v-show="uploadImg.length!=0">
+          <li v-for="(item,index) in uploadImg"
+              :key="index"
+              class="addPic">
+            <img :src="item">
+          </li>
+        </ul>
+        <input type="file"
+               id="file"
+               accept="image/*"
+               @change="getPicture($event)">
+        <button @click="callFile"
+                v-show="showInputImg">+</button>
+      </div>
+
   </div>
 </template>
 
 <script>
+import Axios from 'axios';
 export default {
-  data() {
-    return {
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      }
-    }
-  },
-  methods: {
-    onSubmit() {
-      this.$message('submit!')
-    },
-    onCancel() {
-      this.$message({
-        message: 'cancel!',
-        type: 'warning'
-      })
-    }
-  }
+  data(){
+			return {
+				uploadImg:[]
+			}
+		},
+  		computed: {
+		    showInputImg () {
+		      return this.uploadImg.length < 3;
+		    }
+  		},
+  		methods: {
+  			getPicture (e) {
+		      //预览图片
+		      let src = window.URL.createObjectURL(e.target.files[0]);
+		      this.uploadImg.push(src);
+		
+		      console.log(e.target.files[0])
+          
+          let Formdata = new FormData()
+          Formdata.append("image", e.target.files[0])
+		        //e.target.result  就是从本地读取的图片的base64格式,将它上传给服务器即可
+		        //使用axios的post方法上传即可
+          Axios
+          .post(
+            "http://localhost:8080/Upload",
+            Formdata
+          )
+		    },
+		    callFile () {
+		      //点击添加图片按钮，触发type:"file"的input标签
+		      let fileDom = document.querySelector("#file")
+		      fileDom.click()
+		    }
+  		}
 }
 </script>
 
 <style scoped>
-.line{
-  text-align: center;
-}
+input {
+		  /* 隐藏默认的"打开文件"样式 */
+		  display: none;
+		}
+		.uploadFile {
+		  display: flex;
+		  height: 120px;
+		  line-height: 120px;
+		  padding: 10px 0;
+		  border-bottom: 1px solid rgb(235, 235, 235);
+		  overflow: hidden;
+		}
+		.uploadFile ul {
+		  display: flex;
+		}
+		.uploadFile ul li {
+		  margin-right: 10px;
+		}
+		.uploadFile .addPic img {
+		  height: 100%;
+		  width: 100%;
+		}
+		.uploadFile button {
+		  height: 100px;
+		  width: 100px;
+		  font-size: 50px;
+		  border: 1px dashed rgb(182, 182, 182);
+		  color: rgb(182, 182, 182);
+		  background-color: rgb(243, 243, 243);
+		}
 </style>
 
