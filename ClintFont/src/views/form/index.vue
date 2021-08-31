@@ -1,39 +1,30 @@
 <template>
   <div class="app-container">
+
 	  <span class="info">请输入载体图片</span>
-    <div class="uploadFile">
-        <!-- ul、li标签用于展示从本地添加的预览图片 -->
-        <ul v-show="uploadImg.length!=0">
-          <li v-for="(item,index) in uploadImg"
-              :key="index"
-              class="addPic">
-            <img :src="item">
-          </li>
-        </ul>
+	  <div class="uploadFile">
+          <div v-show="uploadImg1!=null" class="addPic">
+            <img class="img1" :src="uploadImg1">
+          </div>
         <input type="file"
-               id="file"
+               id="file1"
                accept="image/*"
-               @change="getPicture($event)">
-        <button @click="callFile" class="sub"
-                v-show="showInputImg">+</button>
+               @change="getPicture1($event)">
+        <button class="sub1" @click="callFile1"
+                v-show="showInputImg1">+</button>
       </div>
+
 	  <span class="info">请输入水印图片</span>
 	  <div class="uploadFile">
-        <!-- ul、li标签用于展示从本地添加的预览图片 -->
-		
-        <ul v-show="uploadImg.length!=0">
-          <li v-for="(item,index) in uploadImg"
-              :key="index"
-              class="addPic">
-            <img :src="item">
-          </li>
-        </ul>
+          <div v-show="uploadImg2!=null" class="addPic">
+            <img class="img2" :src="uploadImg2">
+          </div>
         <input type="file"
-               id="file"
+               id="file2"
                accept="image/*"
-               @change="getPicture($event)">
+               @change="getPicture2($event)">
         <button class="sub2" @click="callFile2"
-                v-show="showInputImg">+</button>
+                v-show="showInputImg2">+</button>
       </div>
 
   </div>
@@ -44,19 +35,40 @@ import Axios from 'axios';
 export default {
   data(){
 			return {
-				uploadImg:[]
+				uploadImg1:null,
+				uploadImg2:null,
 			}
 		},
   		computed: {
-		    showInputImg () {
-		      return this.uploadImg.length < 3;
+		    showInputImg1 () {
+		      return this.uploadImg1 == null;
+			},
+			showInputImg2 () {
+		      return this.uploadImg2 == null;
 		    }
   		},
   		methods: {
-  			getPicture (e) {
+  			getPicture1 (e) {
 		      //预览图片
 		      let src = window.URL.createObjectURL(e.target.files[0]);
-		      this.uploadImg.push(src);
+		      this.uploadImg1 = src;
+		
+		      console.log(e.target.files[0])
+          
+          let Formdata = new FormData()
+          Formdata.append("image", e.target.files[0])
+		        //e.target.result  就是从本地读取的图片的base64格式,将它上传给服务器即可
+		        //使用axios的post方法上传即可
+          Axios
+          .post(
+            "http://localhost:8080/Upload",
+            Formdata
+          )
+			},
+			getPicture2 (e) {
+		      //预览图片
+		      let src = window.URL.createObjectURL(e.target.files[0]);
+		      this.uploadImg2 = src;
 		
 		      console.log(e.target.files[0])
           
@@ -70,9 +82,14 @@ export default {
             Formdata
           )
 		    },
-		    callFile () {
+		    callFile1 () {
 		      //点击添加图片按钮，触发type:"file"的input标签
-		      let fileDom = document.querySelector("#file")
+		      let fileDom = document.querySelector("#file1")
+		      fileDom.click()
+			},
+			callFile2 () {
+		      //点击添加图片按钮，触发type:"file"的input标签
+		      let fileDom = document.querySelector("#file2")
 		      fileDom.click()
 		    }
   		}
@@ -96,17 +113,15 @@ input {
 		  border-bottom: 1px solid rgb(235, 235, 235);
 		  overflow: hidden;
 		}
-		.uploadFile ul {
-		  display: flex;
-		}
-		.uploadFile ul li {
-		  margin-right: 10px;
-		}
-		.uploadFile .addPic img {
-			margin: 0 auto;
+		.uploadFile .addPic .img1 {
+		margin-left: 500px;
 		  height: 100%;
 		}
-		.uploadFile .sub {
+		.uploadFile .addPic .img2 {
+		margin-left: 600px;
+		  height: 50%;
+		}
+		.uploadFile .sub1 {
 			margin: 0 auto;
 		  height: 300px;
 		  width: 300px;
@@ -116,7 +131,7 @@ input {
 		  background-color: rgb(243, 243, 243);
 		}
 		.uploadFile .sub2 {
-			margin: 0 auto;
+		margin: 0 auto;
 		  height: 200px;
 		  width: 200px;
 		  font-size: 50px;

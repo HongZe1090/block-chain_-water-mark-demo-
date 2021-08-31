@@ -51,34 +51,40 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '主页', icon: 'dashboard' }
     }]
   },
 
   {
-    path: '/form',
+    path: '/test',
     component: Layout,
-    meta: { title: '拷贝检测', icon: 'form' },
+    meta: { title: '拷贝检测', icon: 'el-icon-s-promotion' },
     },
 
   {
-    path: '/form',
+    path: '/waterMark',
     component: Layout,
-    meta: { title: '添加水印', icon: 'form' },
+    meta: { title: '处理水印', icon: 'el-icon-picture' },
     children: [
       {
-        path: 'index',
+        path: 'post',
         name: 'Form',
         component: () => import('@/views/form/index'),
-        meta: { title: '提交图片', icon: 'form' }
+        meta: { title: '添加水印', icon: 'form' }
       },
       {
-        path: 'index',
+        path: 'get',
         name: 'Form',
         component: () => import('@/views/form/index'),
-        meta: { title: '获取图片', icon: 'form' }
+        meta: { title: '提取水印', icon: 'form' }
       }
     ]
+  },
+
+  {
+    path: '/trace',
+    component: Layout,
+    meta: { title: '图片溯源', icon: 'el-icon-s-check' },
   },
 
   {
